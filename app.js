@@ -3,6 +3,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+// importazione router
+const moviesRouter = require('./routers/moviesRouter')
+
 // importazione middlewares
 const notFound = require('./middlewares/notFound')
 const errorServer = require('./middlewares/errorsHandlers')
@@ -10,7 +13,13 @@ const errorServer = require('./middlewares/errorsHandlers')
 // file disponibili al client
 app.use(express.static('public'))
 
-// uso middlewares
+// body-parse
+app.use(express.json())
+
+// utilizzo router
+app.use('/movies',moviesRouter)
+
+// utilizzo middlewares
 app.use(notFound)
 app.use(errorServer)
 
