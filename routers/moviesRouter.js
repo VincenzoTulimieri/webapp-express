@@ -1,16 +1,16 @@
 // express e router
 const express = require('express');
-const router= express.Router()
+const router = express.Router()
 
 // importazione controller
 
 const moviesController = require('../controllers/moviesController')
 
 // index router
-router.get('/',moviesController.index);
+router.get('/', moviesController.index);
 
 // show router
-router.get('/:id',moviesController.show);
+router.get('/:id', moviesController.show);
 
 
 // esportazione router
