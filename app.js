@@ -17,13 +17,13 @@ app.use(express.static('public'))
 app.use(express.json())
 
 // utilizzo router
-app.use('/movies',moviesRouter)
+app.use('/movies', moviesRouter)
 
 // utilizzo middlewares
 app.use(notFound)
 app.use(errorServer)
 
 // server in attesa
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log(`Resto in ascolto sulla porta ${port}`)
 })
