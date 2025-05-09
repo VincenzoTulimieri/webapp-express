@@ -1,8 +1,8 @@
 // express 
 const express = require('express')
 
-
-
+// importazione DB
+const connection = require('../data/db')
 
 
 
