@@ -4,9 +4,6 @@ const express = require('express')
 // importazione DB
 const connection = require('../data/db')
 
-
-
-
 // index
 function index(req, res) {
     // query di tutti i film
@@ -31,7 +28,7 @@ function show(req, res) {
     const reviewsSql = 'SELECT  * FROM reviews WHERE movie_id = ?'
 
 
-
+    // esecuzione query
     connection.query(moviesSql, [id], (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.sqlMessage })
@@ -41,7 +38,7 @@ function show(req, res) {
         }
         const movie = results[0]
 
-        connection.query(reviewsSql,[id],(err,results)=>{
+        connection.query(reviewsSql, [id], (err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.sqlMessage })
             };
