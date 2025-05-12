@@ -3,12 +3,20 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 
+// importazione cors
+const cors = require('cors')
+
 // importazione router
 const moviesRouter = require('./routers/moviesRouter')
 
 // importazione middlewares
 const notFound = require('./middlewares/notFound')
 const errorServer = require('./middlewares/errorsHandlers')
+
+// cors
+app.use(cors({
+    origin: process.env.CLIENT_PORT
+}))
 
 // file disponibili al client
 app.use(express.static('public'))
