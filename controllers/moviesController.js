@@ -6,7 +6,7 @@ const connection = require('../data/db')
 
 // index
 function index(req, res) {
-    // query di tutti i film
+    // query
     const sql = `
     SELECT 
         movies.*, AVG(reviews.vote) AS reviews_vote
@@ -23,7 +23,7 @@ function index(req, res) {
         }
         res.json(results.map(result=>({
             ...result,
-            imgPath: 'http://127.0.0.1:3000/'+ result.image
+            imgPath: process.env.PUBLIC_IMG + result.image
         })))
     })
 }
