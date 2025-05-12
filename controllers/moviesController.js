@@ -7,14 +7,24 @@ const connection = require('../data/db')
 // index
 function index(req, res) {
     // query di tutti i film
-    const sql = 'SELECT * FROM movies;'
+    const sql = `
+    SELECT 
+        movies.*, AVG(reviews.vote) AS reviews_vote
+    FROM
+        movies
+    LEFT JOIN reviews ON movies.id = reviews.movie_id
+    GROUP BY movies.id
+    `
 
     // esecuzione query
     connection.query(sql, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database non trovato' })
         }
-        res.json(results)
+        res.json(results.map(result=>({
+            ...result,
+            imgPath: 'http://127.0.0.1:3000/'+ result.image
+        })))
     })
 }
 

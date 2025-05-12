@@ -16,12 +16,17 @@ app.use(express.static('public'))
 // body-parse
 app.use(express.json())
 
+// pagina di benvenuto
+app.get('/', (req,res)=>{
+    res.send('Ecoo la mia web app')
+})
+
 // utilizzo router
 app.use('/movies', moviesRouter)
 
 // utilizzo middlewares
-app.use(notFound)
 app.use(errorServer)
+app.use(notFound)
 
 // server in attesa
 app.listen(port, () => {
