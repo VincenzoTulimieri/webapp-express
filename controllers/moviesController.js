@@ -6,15 +6,21 @@ const connection = require('../data/db')
 
 // index
 function index(req, res) {
+
+    const {search}= req.query
+
     // query
-    const sql = `
+    let sql = `
     SELECT 
         movies.*, AVG(reviews.vote) AS reviews_vote
     FROM
         movies
     LEFT JOIN reviews ON movies.id = reviews.movie_id
-    GROUP BY movies.id
     `
+    if(search){
+        sql +=` WHERE title LIKE "%${search}%" OR director LIKE "%${search}%" OR abstract LIKE "%${search}%" OR genre LIKE "%${search}%" `
+    }
+    sql += ' GROUP BY movies.id'
 
     // esecuzione query
     connection.query(sql, (err, results) => {
