@@ -7,27 +7,29 @@ const connection = require('../data/db')
 // index
 function index(req, res) {
 
-    const {search}= req.query
+    const { search } = req.query
 
+    let queryParams =[]
     // query
     let sql = `
     SELECT 
-        movies.*, AVG(reviews.vote) AS reviews_vote
+        movies.*, ROUND(AVG(reviews.vote),2) AS reviews_vote
     FROM
         movies
     LEFT JOIN reviews ON movies.id = reviews.movie_id
     `
-    if(search){
-        sql +=` WHERE title LIKE "%${search}%" OR director LIKE "%${search}%" OR abstract LIKE "%${search}%" OR genre LIKE "%${search}%" `
+    if (search) {
+        sql += ` WHERE title LIKE ? OR director LIKE ? OR abstract LIKE ? OR genre LIKE ? `
+        queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`)
     }
     sql += ' GROUP BY movies.id'
 
     // esecuzione query
-    connection.query(sql, (err, results) => {
+    connection.query(sql, queryParams, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database non trovato' })
         }
-        res.json(results.map(result=>({
+        res.json(results.map(result => ({
             ...result,
             imgPath: process.env.PUBLIC_IMG + result.image
         })))
