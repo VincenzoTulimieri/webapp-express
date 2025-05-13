@@ -6,27 +6,32 @@ const connection = require('../data/db')
 
 // index
 function index(req, res) {
-
+    
+    
     const { search } = req.query
-
-    let queryParams =[]
+    
     // query
+    let queryParams =[]
+    
     let sql = `
     SELECT 
-        movies.*, ROUND(AVG(reviews.vote),2) AS reviews_vote
+        movies.*, ROUND(AVG(reviews.vote), 2) AS reviews_vote
     FROM
         movies
     LEFT JOIN reviews ON movies.id = reviews.movie_id
     `
     if (search) {
         sql += ` WHERE title LIKE ? OR director LIKE ? OR abstract LIKE ? OR genre LIKE ? `
-        queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`)
+        queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`,`%${search}%` )
     }
     sql += ' GROUP BY movies.id'
+
+    console.log(queryParams)
 
     // esecuzione query
     connection.query(sql, queryParams, (err, results) => {
         if (err) {
+            console.error('Errore MySQL:', err)
             return res.status(500).json({ error: 'Database non trovato' })
         }
         res.json(results.map(result => ({
@@ -49,6 +54,7 @@ function show(req, res) {
     // esecuzione query
     connection.query(moviesSql, [id], (err, results) => {
         if (err) {
+            console.error('Errore MySQL:', err)
             return res.status(500).json({ error: err.sqlMessage })
         };
         if (results.length === 0) {
@@ -58,6 +64,7 @@ function show(req, res) {
 
         connection.query(reviewsSql, [id], (err, results) => {
             if (err) {
+                console.error('Errore MySQL:', err)
                 return res.status(500).json({ error: err.sqlMessage })
             };
             movie.reviews = results
