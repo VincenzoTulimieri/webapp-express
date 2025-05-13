@@ -73,4 +73,9 @@ function show(req, res) {
     })
 }
 
-module.exports = { index, show }
+// post
+function storeReviews(req,res){
+    res.send('Aggiungi Recensione')
+}
+
+module.exports = { index, show, storeReviews }

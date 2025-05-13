@@ -12,6 +12,9 @@ router.get('/', moviesController.index);
 // show router
 router.get('/:id', moviesController.show);
 
+// post store reviews router 
+router.post('/:id/reviews', moviesController.storeReviews)
+
 
 // esportazione router
 module.exports = router
