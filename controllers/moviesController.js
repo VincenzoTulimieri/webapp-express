@@ -75,7 +75,10 @@ function show(req, res) {
                 return res.status(500).json({ error: err.sqlMessage })
             };
             movie.reviews = results
-            res.json(movie)
+            res.json({
+                ...movie,
+                imgPath: process.env.PUBLIC_IMG + movie.image
+            })
         })
     })
 }
