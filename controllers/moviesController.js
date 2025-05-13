@@ -85,7 +85,7 @@ function show(req, res) {
 
 // post
 function storeReviews(req,res){
-    res.send('Aggiungi Recensione')
+    res.send('Rotta per aggiungere una recensione')
 }
 
 module.exports = { index, show, storeReviews }
