@@ -85,10 +85,7 @@ function show(req, res) {
 function storeReviews(req, res) {
     const { id } = req.params
 
-    console.log(req.body)
-
     const { name, vote, text } = req.body
-
 
     const sql = `
     INSERT INTO reviews (movie_id, name, vote, text) 
