@@ -6,13 +6,13 @@ const connection = require('../data/db')
 
 // index
 function index(req, res) {
-    
-    
+
+
     const { search } = req.query
-    
+
     // query
-    let queryParams =[]
-    
+    let queryParams = []
+
     let sql = `
     SELECT 
         movies.*, ROUND(AVG(reviews.vote), 2) AS reviews_vote
@@ -22,11 +22,9 @@ function index(req, res) {
     `
     if (search) {
         sql += ` WHERE title LIKE ? OR director LIKE ? OR abstract LIKE ? OR genre LIKE ? `
-        queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`,`%${search}%` )
+        queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`)
     }
     sql += ' GROUP BY movies.id'
-
-    console.log(queryParams)
 
     // esecuzione query
     connection.query(sql, queryParams, (err, results) => {
@@ -84,8 +82,31 @@ function show(req, res) {
 }
 
 // post
-function storeReviews(req,res){
-    res.send('Rotta per aggiungere una recensione')
+function storeReviews(req, res) {
+    const { id } = req.params
+
+    console.log(req.body)
+
+    const { name, vote, text } = req.body
+
+
+    const sql = `
+    INSERT INTO reviews (movie_id, name, vote, text) 
+    VALUES ( ?, ?, ?, ?);
+    `
+    connection.query(sql,[id,name,vote,text],(err, results)=>{
+        if (err) {
+            console.error('Errore MySQL:', err)
+            return res.status(500).json({ error: err.sqlMessage })
+        };
+        res.status(201)
+        res.json({
+            id,
+            name,
+            vote,
+            text
+        })
+    })
 }
 
 module.exports = { index, show, storeReviews }
