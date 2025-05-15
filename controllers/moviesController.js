@@ -82,6 +82,12 @@ function show(req, res) {
 }
 
 // post
+function store(req,res){
+    res.send('qui si aggiunge il post')
+}
+
+
+// post recensioni
 function storeReviews(req, res) {
     const { id } = req.params
 
@@ -106,4 +112,4 @@ function storeReviews(req, res) {
     })
 }
 
-module.exports = { index, show, storeReviews }
+module.exports = { index, show, storeReviews, store }
