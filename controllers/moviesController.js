@@ -81,12 +81,6 @@ function show(req, res) {
     })
 }
 
-// post
-function store(req,res){
-    res.send('qui si aggiunge il post')
-}
-
-
 // post recensioni
 function storeReviews(req, res) {
     const { id } = req.params
@@ -111,5 +105,31 @@ function storeReviews(req, res) {
         })
     })
 }
+
+// post
+function store(req,res){
+
+    const { title, director, abstract } = req.body
+
+    const sql = `
+    INSERT INTO movies (title, director, abstract) 
+    VALUES ( ?, ?, ? );
+    `
+    connection.query(sql,[title, director, abstract],(err, results)=>{
+        console.log(results)
+        if (err) {
+            console.error('Errore MySQL:', err)
+            return res.status(500).json({ error: err.sqlMessage })
+        };
+        res.status(201)
+        res.json({
+            id: results.insertId,
+            title,
+            director,
+            abstract
+        })
+    })
+}
+
 
 module.exports = { index, show, storeReviews, store }
