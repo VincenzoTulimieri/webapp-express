@@ -4,7 +4,8 @@ const router = express.Router()
 
 // importazione controller
 
-const moviesController = require('../controllers/moviesController')
+const moviesController = require('../controllers/moviesController');
+const upload = require('../middlewares/multer');
 
 // index router
 router.get('/', moviesController.index);
@@ -13,7 +14,7 @@ router.get('/', moviesController.index);
 router.get('/:id', moviesController.show);
 
 // post store
-router.post('/', moviesController.store)
+router.post('/', upload.single('image'), moviesController.store)
 
 // post store reviews router 
 router.post('/:id/reviews', moviesController.storeReviews)

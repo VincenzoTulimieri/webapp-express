@@ -110,13 +110,13 @@ function storeReviews(req, res) {
 function store(req,res){
 
     const { title, director, abstract } = req.body
-
+    const {imageName}= req.file.filename
+    console.log(req.file)
     const sql = `
-    INSERT INTO movies (title, director, abstract) 
-    VALUES ( ?, ?, ? );
+    INSERT INTO movies (title, director, abstract, image) 
+    VALUES ( ?, ?, ?, ?);
     `
-    connection.query(sql,[title, director, abstract],(err, results)=>{
-        console.log(results)
+    connection.query(sql,[title, director, abstract, imageName],(err, results)=>{
         if (err) {
             console.error('Errore MySQL:', err)
             return res.status(500).json({ error: err.sqlMessage })
@@ -126,7 +126,8 @@ function store(req,res){
             id: results.insertId,
             title,
             director,
-            abstract
+            abstract,
+            imageName
         })
     })
 }
