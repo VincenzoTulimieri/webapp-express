@@ -108,14 +108,14 @@ function storeReviews(req, res) {
 
 // post
 function store(req,res){
-    const { title, director, abstract } = req.body
+    const { title, genre, director, abstract } = req.body
     const {filename}= req.file
 
     const sql = `
     INSERT INTO movies (title, genre, director, abstract, image) 
     VALUES ( ?, ?, ?, ?, ?);
     `
-    connection.query(sql,[title, director, abstract, filename],(err, results)=>{
+    connection.query(sql,[title, genre, director, abstract, filename],(err, results)=>{
         if (err) {
             console.error('Errore MySQL:', err)
             return res.status(500).json({ error: err.sqlMessage })
