@@ -1,3 +1,4 @@
+require('dotenv').config()
 // importazione express con porta 
 const express = require('express')
 const app = express()
